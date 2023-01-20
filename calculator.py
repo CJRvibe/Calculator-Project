@@ -1,46 +1,51 @@
 import math
-from typing import Union
+from typing import Union, Literal
+
 class Calculator:
+
+    class __ExpressionStatement:
+        def __init__(self) -> None:
+            self.expression: str = "0"
+
+
+        def number_checker(self, number):
+            assert type(number) in (int, float)
+
+
+        def append_expression(self, number: Union[int, str], operator: Literal["+", "-", "*", "/"]):
+            self.number_checker(number)
+            self.expression += f" {operator} {number}"
+
+        def evaluate(self):
+            result = eval(self.expression, {"__builtins__": {}}, {})
+            self.expression = "0"
+            return result
     
     def __init__(self) -> None:
         self.answer: int = 0
-        self.expression: str = "0"
-
-    
-    def __number_checker(self, number):
-        assert type(number) in (int, float)
+        self.__expression: self.__ExpressionStatement = self.__ExpressionStatement()
 
 
     def add(self, number: Union[int, float]):
-        self.__number_checker(number)
-        self.expression += f" + {number}"
+        self.__expression.append_expression(number, "+")
         return self
-
     
     def subtract(self, number: Union[int, float]):
-        self.__number_checker(number)
-        self.expression += f" - {number}"
+        self.__expression.append_expression(number, "-")
         return self
-
 
     def multiply(self, number: Union[int, float]):
-        self.__number_checker(number)
-        self.expression += f" * {number}"
+        self.__expression.append_expression(number, "*")
         return self
-    
 
     def divide(self, number: Union[int, float]):
-        self.__number_checker(number)
-        self.expression += f" / {number}"
+        self.__expression.append_expression(number, "/")
         return self
 
 
     def evaluate(self):
-        self.answer = eval(self.expression, {"__builtins__": {}}, {})
-        self.expression = "0"
+        self.answer = self.__expression.evaluate()
         return self.answer
-
-
 
     def raw_evaluate(self, expression: str):
         code = compile(expression, "<string>", "eval")
