@@ -5,7 +5,7 @@ class Calculator:
 
     class __ExpressionStatement:
         def __init__(self) -> None:
-            self.expression: str = "0"
+            self.expression: str = ""
 
 
         def number_checker(self, number):
@@ -14,7 +14,7 @@ class Calculator:
 
         def append_expression(self, number: Union[int, str], operator: Literal["+", "-", "*", "/"]):
             self.number_checker(number)
-            self.expression += f" {operator} {number}"
+            self.expression += f"{operator}{number}"
 
         def evaluate(self):
             result = eval(self.expression, {"__builtins__": {}}, {})
@@ -23,7 +23,7 @@ class Calculator:
     
     def __init__(self) -> None:
         self.answer: int = 0
-        self.__expression: self.__ExpressionStatement = self.__ExpressionStatement()
+        self.__expression = self.__ExpressionStatement()
 
 
     def add(self, number: Union[int, float]):
