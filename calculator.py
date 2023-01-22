@@ -4,8 +4,8 @@ from typing import Union, Literal, Type
 
 class CalculatorExpression:
 
-    def __init__(self) -> None:
-        self.__expression: str = ""
+    def __init__(self, start_value: Union[int, float, "CalculatorExpression"]=0) -> None:
+        self.__expression: str = f"{start_value}"
         self.__answer: Union[int, float, None] = None
 
     @property
@@ -69,5 +69,5 @@ class CalculatorExpression:
 
 class Calculator:
 
-    def create__expression(self):
-         return CalculatorExpression()
+    def create_expression(self, start_value: Union[int, float, "CalculatorExpression"]=0):
+         return CalculatorExpression(start_value=start_value)
