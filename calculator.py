@@ -6,7 +6,15 @@ class CalculatorExpression:
     
     def __init__(self) -> None:
         self.__expression: str = ""
-        self.answer: Union[int, float, None] = None
+        self.__answer: Union[int, float, None] = None
+
+    @property
+    def expression(self):
+        return self.__expression
+
+    @property
+    def answer(self):
+        self.__answer
     
     
     def number_checker(self, value):
