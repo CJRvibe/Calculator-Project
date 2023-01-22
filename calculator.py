@@ -48,12 +48,12 @@ class CalculatorExpression:
         return self
 
 
-    def evaluate(self):
+    def evaluate(self) -> Union[int, float]:
         code = compile(self.__expression, "<string>", "eval")
         if code.co_names:
             raise NameError("cannot use variable names in the expression")
-        answer = eval(code, {"__builtins__": {}}, {})
-        return answer
+        self.__answer =  eval(code, {"__builtins__": {}}, {})
+        return self.answer
 
 class Calculator:
 
