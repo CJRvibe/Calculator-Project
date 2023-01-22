@@ -29,29 +29,20 @@ class CalculatorExpression:
             self.__expression += f"{operator}({value.expression})"
 
 
-    def add(self, value: Union[int, float]):
+    def add(self, value: Union[int, float, "CalculatorExpression"]):
         self.append_expression(operator="+", value=value)
         return self
     
-    def subtract(self, value: Union[int, float]):
+    def subtract(self, value: Union[int, float, "CalculatorExpression"]):
         self.append_expression(operator="-", value=value)
         return self
 
-    def multiply(self, value: Union[int, float]):
+    def multiply(self, value: Union[int, float, "CalculatorExpression"]):
         self.append_expression(operator="*", value=value)
         return self
 
-    def divide(self, value: Union[int, float]):
+    def divide(self, value: Union[int, float, "CalculatorExpression"]):
         self.append_expression(operator="/", value=value)
-        return self
-
-    
-    def sub_expression(self, operator: Literal["+", "-", "*", "/"], value: "CalculatorExpression"):
-        if operator not in ("+", "-", "*", "/"):
-            raise ValueError("Please specify a proper arithmetic operator")
-        if type(value) is not CalculatorExpression:
-            raise TypeError("Please enter a CalculatorExpression object in the value parameter")
-        self.append_expression(operator=operator, value=value)
         return self
 
 
