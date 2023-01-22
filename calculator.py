@@ -1,9 +1,9 @@
 import math
-from typing import Union, Literal
+from typing import Union, Literal, Type
 
 
 class CalculatorExpression:
-    
+
     def __init__(self) -> None:
         self.__expression: str = ""
         self.__answer: Union[int, float, None] = None
@@ -14,16 +14,19 @@ class CalculatorExpression:
 
     @property
     def answer(self):
-        self.__answer
+        return self.__answer
     
     
     def number_checker(self, value):
         assert type(value) in (int, float, CalculatorExpression)
 
 
-    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str]):
+    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"]):
         self.number_checker(value)
-        self.__expression += f"{operator}{value}"
+        if type(value) is not CalculatorExpression:
+            self.__expression += f"{operator}{value}"
+        else:
+            self.__expression += f"{operator}({value.expression})"
 
 
     def add(self, value: Union[int, float]):
@@ -40,6 +43,15 @@ class CalculatorExpression:
 
     def divide(self, value: Union[int, float]):
         self.append_expression(operator="/", value=value)
+        return self
+
+    
+    def sub_expression(self, operator: Literal["+", "-", "*", "/"], value: "CalculatorExpression"):
+        if operator not in ("+", "-", "*", "/"):
+            raise ValueError("Please specify a proper arithmetic operator")
+        if type(value) is not CalculatorExpression:
+            raise TypeError("Please enter a CalculatorExpression object in the value parameter")
+        self.append_expression(operator=operator, value=value)
         return self
 
 
