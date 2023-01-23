@@ -46,6 +46,18 @@ class CalculatorExpression:
         return self
 
 
+    def sin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.__expression += f"{operator}math.sin({value})"
+        return self
+
+    def cos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.__expression += f"{operator}math.cos({value})"
+        return self
+
+    def tan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.__expression += f"{operator}math.tan({value})"
+        return self
+    
     def clear_expression(self):
         self.__expression = ""
         return self
@@ -53,9 +65,9 @@ class CalculatorExpression:
 
     def evaluate(self) -> Union[int, float]:
         code = compile(self.__expression, "<string>", "eval")
-        if code.co_names:
-            raise NameError("cannot use variable names in the expression")
-        self.__answer =  eval(code, {"__builtins__": {}}, {})
+        # if code.co_names:
+        #     raise NameError("cannot use variable names in the expression")
+        self.__answer =  eval(code, {"__builtins__": {}, "math": math}, {})
         return self.answer
 
 class Calculator:
