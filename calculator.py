@@ -1,5 +1,5 @@
 import math
-from typing import Union, Literal, Type
+from typing import Union, Literal, Self
 
 
 class CalculatorExpression:
@@ -29,24 +29,24 @@ class CalculatorExpression:
             self.__expression += f"{operator}({value.expression})"
 
 
-    def add(self, value: Union[int, float, "CalculatorExpression"]):
+    def add(self, value: Union[int, float, "CalculatorExpression"]) -> Self:
         self.__append_expression(operator="+", value=value)
         return self
     
-    def subtract(self, value: Union[int, float, "CalculatorExpression"]):
+    def subtract(self, value: Union[int, float, "CalculatorExpression"]) -> Self:
         self.__append_expression(operator="-", value=value)
         return self
 
-    def multiply(self, value: Union[int, float, "CalculatorExpression"]):
+    def multiply(self, value: Union[int, float, "CalculatorExpression"]) -> Self:
         self.__append_expression(operator="*", value=value)
         return self
 
-    def divide(self, value: Union[int, float, "CalculatorExpression"]):
+    def divide(self, value: Union[int, float, "CalculatorExpression"]) -> Self:
         self.__append_expression(operator="/", value=value)
         return self
 
 
-    def clear_expression(self):
+    def clear_expression(self) -> Self:
         self.__expression = ""
         return self
 
