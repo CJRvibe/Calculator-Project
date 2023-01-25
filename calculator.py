@@ -1,6 +1,11 @@
 import math
 from typing import Union, Literal, Type
+from enum import Enum, auto
 
+class ExpressionConstants(Enum):
+    SIN = "math.sin"
+    COS = "math.cos"
+    TAN = "math.tan"
 
 class CalculatorExpression:
 
@@ -21,12 +26,18 @@ class CalculatorExpression:
         assert type(value) in (int, float, CalculatorExpression)
 
 
-    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"]):
+    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"], trigo: ExpressionConstants=None):
         self.number_checker(value)
-        if type(value) is not CalculatorExpression:
-            self.__expression += f"{operator}{value}"
+        if trigo:
+            if type(value) is not CalculatorExpression:
+                self.__expression += f"{operator}{trigo.value}({value})"
+            else:
+                self.__expression += f"{operator}({trigo.value}({value.expression}))"
         else:
-            self.__expression += f"{operator}({value.expression})"
+            if type(value) is not CalculatorExpression:
+               self.__expression += f"{operator}{value}"
+            else:
+                self.__expression += f"{operator}({value.expression})"
 
 
     def add(self, value: Union[int, float, "CalculatorExpression"]):
@@ -47,15 +58,15 @@ class CalculatorExpression:
 
 
     def sin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.__expression += f"{operator}math.sin({value})"
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.SIN)
         return self
 
     def cos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.__expression += f"{operator}math.cos({value})"
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.COS)
         return self
 
     def tan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.__expression += f"{operator}math.tan({value})"
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.TAN)
         return self
     
     def clear_expression(self):
