@@ -17,12 +17,12 @@ class CalculatorExpression:
         return self.__answer
     
     
-    def number_checker(self, value):
+    def __number_checker(self, value):
         assert type(value) in (int, float, CalculatorExpression)
 
 
-    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"]):
-        self.number_checker(value)
+    def __append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"]):
+        self.__number_checker(value)
         if type(value) is not CalculatorExpression:
             self.__expression += f"{operator}{value}"
         else:
@@ -30,19 +30,19 @@ class CalculatorExpression:
 
 
     def add(self, value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator="+", value=value)
+        self.__append_expression(operator="+", value=value)
         return self
     
     def subtract(self, value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator="-", value=value)
+        self.__append_expression(operator="-", value=value)
         return self
 
     def multiply(self, value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator="*", value=value)
+        self.__append_expression(operator="*", value=value)
         return self
 
     def divide(self, value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator="/", value=value)
+        self.__append_expression(operator="/", value=value)
         return self
 
 
