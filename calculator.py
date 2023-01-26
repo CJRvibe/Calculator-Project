@@ -9,6 +9,13 @@ class ExpressionConstants(Enum):
     ASIN = "math.asin"
     ACOS = "math.acos"
     ATAN = "math.atan"
+    SINH = "math.sinh"
+    COSH = "math.cosh"
+    TANH = "math.tanh"
+    ASINH = "math.asinh"
+    ACOSH = "math.acosh"
+    ATANH = "math.atanh"
+
 
 class CalculatorExpression:
 
@@ -82,6 +89,30 @@ class CalculatorExpression:
 
     def atan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ATAN)
+        return self
+    
+    def sinh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.SINH)
+        return self
+
+    def cosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.COSH)
+        return self
+
+    def tanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.TANH)
+        return self
+
+    def asinh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ASINH)
+        return self
+    
+    def acosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ACOSH)
+        return self
+
+    def atanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ATANH)
         return self
 
 
