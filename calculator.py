@@ -6,6 +6,9 @@ class ExpressionConstants(Enum):
     SIN = "math.sin"
     COS = "math.cos"
     TAN = "math.tan"
+    ASIN = "math.asin"
+    ACOS = "math.acos"
+    ATAN = "math.atan"
 
 class CalculatorExpression:
 
@@ -68,7 +71,20 @@ class CalculatorExpression:
     def tan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.TAN)
         return self
+
+    def asin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ASIN)
+        return self
     
+    def acos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ACOS)
+        return self
+
+    def atan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
+        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ATAN)
+        return self
+
+
     def clear_expression(self):
         self.__expression = ""
         return self
@@ -78,7 +94,7 @@ class CalculatorExpression:
         code = compile(self.__expression, "<string>", "eval")
         # if code.co_names:
         #     raise NameError("cannot use variable names in the expression")
-        self.__answer =  eval(code, {"__builtins__": {}, "math": math}, {})
+        self.__answer = eval(code, {"__builtins__": {}, "math": math}, {})
         return self.answer
 
 class Calculator:
