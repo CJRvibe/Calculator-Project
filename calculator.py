@@ -2,6 +2,12 @@ import math
 from typing import Union, Literal, Type
 from enum import Enum, auto
 
+class CalculatorConstants(Enum):
+    ADD = "+"
+    SUBTRACT = "-"
+    MULTIPLY = "*"
+    DIVIDE = "/"
+
 class ExpressionConstants(Enum):
     SIN = "math.sin"
     COS = "math.cos"
@@ -32,6 +38,12 @@ class CalculatorExpression:
         return self.__answer
     
     
+    def __operations_checker(self, operator):
+        assert type(operator) in (str, CalculatorConstants)
+        if type(operator) == str:
+            return operator
+        return operator.value
+
     def number_checker(self, value):
         assert type(value) in (int, float, CalculatorExpression)
 
@@ -68,51 +80,63 @@ class CalculatorExpression:
 
 
     def sin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.SIN)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.SIN)
         return self
 
     def cos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.COS)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.COS)
         return self
 
     def tan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.TAN)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.TAN)
         return self
 
     def asin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ASIN)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ASIN)
         return self
     
     def acos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ACOS)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ACOS)
         return self
 
     def atan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ATAN)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ATAN)
         return self
     
     def sinh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.SINH)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.SINH)
         return self
 
     def cosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.COSH)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.COSH)
         return self
 
     def tanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.TANH)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.TANH)
         return self
 
-    def asinh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ASINH)
+    def asinh(self, operator:Union[Literal["+", "-", "*", "/"], CalculatorConstants], value: Union[int, float, "CalculatorExpression"]):
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ASINH)
         return self
     
     def acosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ACOSH)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ACOSH)
         return self
 
     def atanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
-        self.append_expression(operator=operator, value=value, trigo=ExpressionConstants.ATANH)
+        confirmed_operator = self.__operations_checker(operator)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ATANH)
         return self
 
 
@@ -128,7 +152,11 @@ class CalculatorExpression:
         self.__answer = eval(code, {"__builtins__": {}, "math": math}, {})
         return self.answer
 
+
+
 class Calculator:
+
+    constants = CalculatorConstants
 
     def create_expression(self, start_value: Union[int, float, "CalculatorExpression"]=0):
          return CalculatorExpression(start_value=start_value)
