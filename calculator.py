@@ -7,14 +7,19 @@ class CalculatorConstants(Enum):
     SUBTRACT = "-"
     MULTIPLY = "*"
     DIVIDE = "/"
+    DEGREE_MODE = auto()
+    RADIAN_MODE = auto()
 
-class ExpressionConstants(Enum):
+class TrigoFunctions(Enum):
     SIN = "math.sin"
     COS = "math.cos"
     TAN = "math.tan"
     ASIN = "math.asin"
     ACOS = "math.acos"
     ATAN = "math.atan"
+
+
+class HypTrigoFunctions(Enum):
     SINH = "math.sinh"
     COSH = "math.cosh"
     TANH = "math.tanh"
@@ -25,9 +30,21 @@ class ExpressionConstants(Enum):
 
 class CalculatorExpression:
 
-    def __init__(self, start_value: Union[int, float, "CalculatorExpression"]=0) -> None:
+    def __init__(self, start_value: Union[int, float, "CalculatorExpression"]=0, mode=CalculatorConstants.DEGREE_MODE) -> None:
         self.__expression: str = f"{start_value}"
         self.__answer: Union[int, float, None] = None
+        self.__mode = mode
+
+    @property
+    def mode(self):
+        return self.__mode
+
+    @mode.setter
+    def mode(self, mode):
+        if mode not in (CalculatorConstants.DEGREE_MODE, CalculatorConstants.RADIAN_MODE):
+            raise TypeError("Use one of the values provided")
+        self.__mode = mode
+
 
     @property
     def expression(self):
@@ -36,8 +53,7 @@ class CalculatorExpression:
     @property
     def answer(self):
         return self.__answer
-    
-    
+
     def __operations_checker(self, operator):
         assert type(operator) in (str, CalculatorConstants)
         if type(operator) == str:
@@ -48,13 +64,22 @@ class CalculatorExpression:
         assert type(value) in (int, float, CalculatorExpression)
 
 
-    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"], trigo: ExpressionConstants=None):
+    def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"], trigo: Union[TrigoFunctions, HypTrigoFunctions]=None):
         self.number_checker(value)
         if trigo:
             if type(value) is not CalculatorExpression:
-                self.__expression += f"{operator}{trigo.value}({value})"
+                if self.mode is not CalculatorConstants.RADIAN_MODE:
+                    if trigo not in (TrigoFunctions.SIN, trigo.COS, TrigoFunctions.TAN):
+                        self.__expression += f"{operator}(math.degrees({trigo.value}(math.radians({value}))))"
+                    else:
+                        self.__expression += f"{operator}{trigo.value}(math.radians({value}))"
+
             else:
-                self.__expression += f"{operator}({trigo.value}({value.expression}))"
+                if self.mode is not CalculatorConstants.RADIAN_MODE:
+                    if trigo not in (TrigoFunctions.SIN, trigo.COS, TrigoFunctions.TAN):
+                        self.__expression += f"{operator}((math.degrees({trigo.value}(math.radians({value})))))"
+                    else:
+                        self.__expression += f"{operator}({trigo.value}(math.radians({value})))"
         else:
             if type(value) is not CalculatorExpression:
                self.__expression += f"{operator}{value}"
@@ -81,62 +106,62 @@ class CalculatorExpression:
 
     def sin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.SIN)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=TrigoFunctions.SIN)
         return self
 
     def cos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.COS)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=TrigoFunctions.COS)
         return self
 
     def tan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.TAN)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=TrigoFunctions.TAN)
         return self
 
     def asin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ASIN)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=TrigoFunctions.ASIN)
         return self
     
     def acos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ACOS)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=TrigoFunctions.ACOS)
         return self
 
     def atan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ATAN)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=TrigoFunctions.ATAN)
         return self
     
     def sinh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.SINH)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=HypTrigoFunctions.SINH)
         return self
 
     def cosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.COSH)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=HypTrigoFunctions.COSH)
         return self
 
     def tanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.TANH)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=HypTrigoFunctions.TANH)
         return self
 
     def asinh(self, operator:Union[Literal["+", "-", "*", "/"], CalculatorConstants], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ASINH)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=HypTrigoFunctions.ASINH)
         return self
     
     def acosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ACOSH)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=HypTrigoFunctions.ACOSH)
         return self
 
     def atanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, "CalculatorExpression"]):
         confirmed_operator = self.__operations_checker(operator)
-        self.append_expression(operator=confirmed_operator, value=value, trigo=ExpressionConstants.ATANH)
+        self.append_expression(operator=confirmed_operator, value=value, trigo=HypTrigoFunctions.ATANH)
         return self
 
 
@@ -158,5 +183,5 @@ class Calculator:
 
     constants = CalculatorConstants
 
-    def create_expression(self, start_value: Union[int, float, "CalculatorExpression"]=0):
-         return CalculatorExpression(start_value=start_value)
+    def create_expression(self, start_value: Union[int, float, "CalculatorExpression"]=0, mode=CalculatorConstants.DEGREE_MODE):
+         return CalculatorExpression(start_value=start_value, mode=mode)
