@@ -60,31 +60,35 @@ class CalculatorExpression:
             return operator
         return operator.value
 
-    def number_checker(self, value):
-        assert type(value) in (int, float, CalculatorExpression)
+    def __value_checker(self, value):
+        if type(value) in (int, float):
+            return 0
+        if type(value) is CalculatorExpression:
+            return 1
+        else: raise TypeError("Incorrect type of value. Value must be an expression object, int or float")
+
+    def __trigo_builder(self, trigo, value):
+        if trigo not in HypTrigoFunctions:
+            if self.mode is CalculatorConstants.RADIAN_MODE:
+                return f"{trigo.value}({value})"
+            if trigo not in (TrigoFunctions.SIN, TrigoFunctions.COS, TrigoFunctions.TAN):
+                return f"(math.degrees({trigo.value}({value})))"
+            return f"{trigo.value}(math.radians({value}))"
+        return f"{trigo.value}({value})"
 
 
     def append_expression(self, operator: Literal["+", "-", "*", "/"], value: Union[int, str, "CalculatorExpression"], trigo: Union[TrigoFunctions, HypTrigoFunctions]=None):
-        self.number_checker(value)
-        if trigo:
-            if type(value) is not CalculatorExpression:
-                if self.mode is not CalculatorConstants.RADIAN_MODE:
-                    if trigo not in (TrigoFunctions.SIN, trigo.COS, TrigoFunctions.TAN):
-                        self.__expression += f"{operator}(math.degrees({trigo.value}(math.radians({value}))))"
-                    else:
-                        self.__expression += f"{operator}{trigo.value}(math.radians({value}))"
+        value_type = self.__value_checker(value)
 
-            else:
-                if self.mode is not CalculatorConstants.RADIAN_MODE:
-                    if trigo not in (TrigoFunctions.SIN, trigo.COS, TrigoFunctions.TAN):
-                        self.__expression += f"{operator}((math.degrees({trigo.value}(math.radians({value})))))"
-                    else:
-                        self.__expression += f"{operator}({trigo.value}(math.radians({value})))"
-        else:
-            if type(value) is not CalculatorExpression:
-               self.__expression += f"{operator}{value}"
-            else:
-                self.__expression += f"{operator}({value.expression})"
+        if trigo:
+            if value_type == 0:
+                self.__expression += f"{operator}{self.__trigo_builder(trigo,value)}"
+            else: self.__expression += f"{operator}({self.__trigo_builder(trigo,value)})"
+        
+        elif value_type == 0:
+            self.__expression += f"{operator}{value}"
+        else: 
+            self.__expression += f"{operator}({self.__trigo_builder(trigo,value)})"
 
 
     def add(self, value: Union[int, float, "CalculatorExpression"]):
