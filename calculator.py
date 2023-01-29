@@ -45,6 +45,8 @@ class CalculatorExpression:
         self.__append_expression(operator="/", value=value)
         return self
 
+    def pow(self, operator, value, index):
+        self.__expression += f"{operator}math.pow({value}, {index})"
 
     def clear_expression(self) -> Self:
         self.__expression = ""
@@ -53,9 +55,7 @@ class CalculatorExpression:
 
     def evaluate(self) -> Union[int, float]:
         code = compile(self.__expression, "<string>", "eval")
-        if code.co_names:
-            raise NameError("cannot use variable names in the expression")
-        self.__answer =  eval(code, {"__builtins__": {}}, {})
+        self.__answer = eval(code, {"__builtins__": {}, "math": math}, {})
         return self.answer
 
 class Calculator:
