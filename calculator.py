@@ -58,7 +58,6 @@ class CalculatorExpression:
         self.__answer = eval(code, {"__builtins__": {}, "math": math}, {})
         return self.answer
 
-class Calculator:
 
-    def create_expression(self, start_value: Union[int, float, "CalculatorExpression"]=0):
-         return CalculatorExpression(start_value=start_value)
+def create_expression(start_value: Union[int, float, "CalculatorExpression"]=0):
+        return CalculatorExpression(start_value=start_value)
