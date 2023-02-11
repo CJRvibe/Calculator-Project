@@ -45,11 +45,43 @@ class BaseExpression:
             return 1
         else: raise TypeError("Incorrect type of value. Value must be an expression object, int or float")
 
+
+    def __operations_checker(self, operator):
+        assert type(operator) in (str, CalculatorConstants)
+        if type(operator) == str:
+            return operator
+        return operator.value
     
     def __append_expression(self, operator: CalculatorConstants, value: Union[int, str, "BaseExpression"], value_type: Literal[0,1]):
+        parsed_operator = self.__operations_checker(operator)
         if value_type == 0:
-            self.__expression += f"{operator}{value}"    
-        else: self.__expression += f"{operator}({value})"
+            self.__expression += f"{parsed_operator}{value}"    
+        else: self.__expression += f"{parsed_operator}({value})"
+
+    
+    def add(self, value: Union[int, float, "BaseExpression"]) -> Self:
+        value_type = self.__value_checker(value)
+        self.__append_expression(parsed_operator="+", value=value, value_type=value_type)
+        return self
+    
+    def subtract(self, value: Union[int, float, "BaseExpression"]) -> Self:
+        value_type = self.__value_checker(value)
+        self.__append_expression(parsed_operator="-", value=value, value_type=value_type)
+        return self
+
+    def multiply(self, value: Union[int, float, "BaseExpression"]) -> Self:
+        value_type = self.__value_checker(value)
+        self.__append_expression(parsed_operator="*", value=value, value_type=value_type)
+        return self
+
+    def divide(self, value: Union[int, float, "BaseExpression"]) -> Self:
+        value_type = self.__value_checker(value)
+        self.__append_expression(parsed_operator="/", value=value, value_type=value_type)
+        return self
+
+    def pow(self, operator, value, index):
+        value_type = self.__value_checker(value)
+        self.__append_expression(parsed_operator=operator, value=f"math.pow({value}, {index})", value_type=value_type)
 
         
     def clear_expression(self) -> Self:
