@@ -125,73 +125,85 @@ class Trigo(BaseExpression):
         return f"{trigo.value}({value})"
 
     def sin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=TrigoFunctions.SIN, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def cos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=TrigoFunctions.COS, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def tan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=TrigoFunctions.TAN, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def asin(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=TrigoFunctions.ASIN, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
     
     def acos(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=TrigoFunctions.ACOS, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def atan(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=TrigoFunctions.ATAN, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
     
     def sinh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=HypTrigoFunctions.SINH, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def cosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=HypTrigoFunctions.COSH, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def tanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=HypTrigoFunctions.TANH, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def asinh(self, operator:Union[Literal["+", "-", "*", "/"], CalculatorConstants], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=HypTrigoFunctions.ASINH, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
     
     def acosh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=HypTrigoFunctions.ACOSH, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
 
     def atanh(self, operator:Literal["+", "-", "*", "/"], value: Union[int, float, Type[BaseExpression]]):
+        value_type = self.value_checker(value)
         parsed_operator = self.operations_checker(operator)
         trigo_value = self.trigo_builder(trigo=HypTrigoFunctions.TANH, value=value)
-        self.append_expression(operator=parsed_operator, value=trigo_value)
+        self.append_expression(operator=parsed_operator, value=trigo_value, value_type=value_type)
         return self
