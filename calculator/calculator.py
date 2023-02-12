@@ -1,9 +1,10 @@
 import math
-from typing import Union, Literal, Self
-from enum import Enum, auto
-import base_models
-from base_models import CalculatorConstants
+from typing import Union
+import calculator.base_models as base_models
 
+
+class Constants(base_models.CalculatorConstants):
+    pass
 
 class Expression(base_models.Trigo):
     pass
