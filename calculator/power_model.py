@@ -1,5 +1,5 @@
 import math
-from base_models import BaseExpression
+from .base_models import BaseExpression
 
 class Power(BaseExpression):
 
