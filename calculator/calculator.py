@@ -1,10 +1,9 @@
 import math
 from typing import Union
-import calculator.base_models as base_models
+from calculator import base_models
 
 
-class Constants(base_models.CalculatorConstants):
-    pass
+CONSTANTS = base_models.CalculatorConstants
 
 class Expression(base_models.Trigo):
     pass
