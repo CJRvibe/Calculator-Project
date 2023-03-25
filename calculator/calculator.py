@@ -1,11 +1,12 @@
 import math
 from typing import Union
-from calculator import base_models
+import power_model
+import base_models
 
 
 CONSTANTS = base_models.CalculatorConstants
 
-class Expression(base_models.Trigo):
+class Expression(base_models.Trigo, power_model.Power):
     pass
 
 
