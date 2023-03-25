@@ -23,12 +23,13 @@ class Power(BaseExpression):
         self.append_expression(operator, f"math.log10({value})", value_type)
         return self
         
-    def exp(self, operator, value):
+    def exp_e(self, operator, value):
         value_type = self.value_checker(value)
         self.append_expression(operator, f"math.exp({value})", value_type)
         return self
 
-    def exp2(self, operator, value):
+    def exp_2(self, operator, value):
         value_type = self.value_checker(value)
         self.append_expression(operator, f"math.exp2({value})", value_type)
         return self
+    
